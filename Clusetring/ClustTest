@@ -1,0 +1,99 @@
+#1. You are given a dataset with two numerical features Height and Weight. 
+#  Your goal is to cluster these people into 3 groups using K-Means clustering. 
+#  After clustering, you will visualize the clusters and their centroids
+import pandas as pd
+import numpy as np
+import seaborn as sns 
+#load dataset
+df = pd.read_csv("HeightWeight.csv")
+df
+df.isnull().sum()
+df.columns
+df.rename(columns={'Height(Inches)': 'Height', 'Weight(Pounds)': 'Weight'}, inplace=True)
+df
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Select features
+X = df[['Height', 'Weight']]
+
+# Perform K-means clustering
+kmeans = KMeans(n_clusters=3, random_state=0)
+kmeans.fit(X)
+
+df['Cluster'] = kmeans.labels_
+print(df)
+
+plt.scatter(df['Height'], df['Weight'], c=df['Cluster'], cmap='viridis')
+plt.xlabel('Height')
+plt.ylabel('Weight')
+plt.title('K-means Clustering')
+plt.show()
+#2. You have a dataset of customers with features Age, Annual Income, and 
+#  Spending Score. You need to apply hierarchical clustering to segment these 
+#  customers. Plot a dendrogram to decide the optimal number of clusters and 
+#  compare it with K-Means clustering results.
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("Mall_Customers.csv")
+df
+df.columns
+df.rename(columns={'Annual Income (k$)': 'Income', 'Spending Score (1-100)': 'SpdScore'}, inplace=True)
+df.isnull().sum()
+from sklearn.cluster import KMeans
+X = df[['Age', 'Income','SpdScore']]
+
+# Perform K-means clustering
+kmeans = KMeans(n_clusters=3, random_state=0)
+kmeans.fit(X)
+
+df['Cluster'] = kmeans.labels_
+print(df)
+
+plt.scatter(df['Income'], df['SpdScore'],df['Age'],c=df['Cluster'], cmap='viridis')
+plt.xlabel('Income')
+plt.ylabel('SpdScore')
+#plt.zlabel('Age')
+plt.title('K-means Clustering')
+plt.show()
+plt.figure(figsize=(10, 7))
+dendrogram(linked, orientation='top', distance_sort='descending', show_leaf_counts=True)
+plt.title('Dendrogram')
+plt.xlabel('Customers')
+plt.ylabel('Euclidean distances')
+plt.show()
+#5. Cluster text documents based on their TF-IDF vectors using K-Means 
+# clustering. Use the 20 Newsgroups dataset.
+# Note : Load the 20 Newsgroup dataset(fetch_20newsgroups) from sklearn
+import pandas as pd
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+newsgroups = fetch_20newsgroups(subset='all', remove=('headers', 'footers', 'quotes'))
+# Convert text to TF-IDF vectors
+vectorizer = TfidfVectorizer(stop_words='english')
+X = vectorizer.fit_transform(newsgroups.data)
+
+# Perform K-Means clustering
+kmeans = KMeans(n_clusters=20, random_state=0)
+kmeans.fit(X)
+# Create DataFrame with cluster labels
+df = pd.DataFrame({'Document': newsgroups.data, 'Cluster': kmeans.labels_})
+print(df.head())
+
+# Visualize the clusters using PCA
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X.toarray())
+
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=kmeans.labels_, cmap='viridis')
+plt.xlabel('PCA Component 1')
+plt.ylabel('PCA Component 2')
+plt.title('K-Means Clustering of 20 Newsgroups')
+plt.show()
+
