@@ -1,0 +1,18 @@
+import pandas as pd 
+df = pd.read_csv("IPL.csv")
+df.head()
+set(df['AGE'])   #set contains unique value so it shows the unique value present in it
+set(df['TEAM'])
+set(df['T-RUNS'])
+df.iloc[:5,:7]         #iloc represents rows [(rows_start:rows_end) , (col_start:col_end)]
+df.iloc[:5,7:14]
+set(df['T-WKTS'])
+set(df['ODI-RUNS-S'])
+set(df['ODI-SR-B'])
+set(df['ODI-WKTS'])
+set(df['ODI-SR-BL'])
+set(df['RUNS-S'])
+df.iloc[:5,14:21] # all columns are continues we can check by using set
+df.iloc[:5,21:] #all columns are continues but only AUCTION YEAR is descrit data 
+set(df['AUCTION YEAR'])
+set(df[
