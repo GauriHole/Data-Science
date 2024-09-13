@@ -1,0 +1,63 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Sep  3 08:20:47 2024
+
+@author: Lenovo
+"""
+#-------------- Text Scraping ------------------
+from bs4 import BeautifulSoup as bs
+import requests
+link = 'https://m.imdb.com/title/tt0068646/reviews?ref_=tt_urv'
+page = requests.get(link)
+page
+page.content
+soup = bs(page.content,'html.parser')
+print(soup.prettify())
+
+#--------------- Title Scrapping --------------
+title = soup.find_all('a',class_='title')
+title 
+review_title = []
+for i in range (0,len(title)):
+    review_title.append(title[i].get_text())
+review_title
+review_title[:]=[title.strip('\n') for title in review_title]
+review_title
+len(review_title)
+
+#--------------- Rating Scrapping ----------------
+rating= soup.find_all('span',class_="rating-other-user-rating")
+rating
+rate=[]
+for i in range(0,len(rating)):
+    rate.append(rating[i].get_text())
+rate
+rate[:]=[r.strip('/') for r in rate]
+rate
+len(rate)
+#rate = rate[10:] #Drop 10 ratings
+rate.append('')
+rate.append('')
+len(rate)
+
+#---------------- Review Scrapping -----------------------
+review = soup.find_all('div',class_="text")
+review
+review_body =[]
+for i in range(0,len(review)):
+    review_body.append(review[i].get_text())
+review_body
+len(review_body)
+
+#--------- Create .csv of Scrapped content ---------------
+import pandas as pd
+df = pd.DataFrame()
+df['Review_Title'] = review_title
+df['Rate'] = rate
+df['Review'] = review_body
+df
+
+#--------To CSV Convertion
+df.to_csv("GodFather_review.csv")
+df_new = pd.read_csv("GodFather_review.csv")
+df_new
