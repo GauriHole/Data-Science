@@ -1,0 +1,13 @@
+num = {1:'1'}
+if(num == '\0'):
+    print("Number is Not Present in Cache ")
+    def fact(n):
+        if n==1:
+            return 1
+        return n*fact(n-1)
+        result = fact(5)
+        print(result)
+        print(num+result)
+else:
+    print("I dont know")
+''' maintain one dictionary to store the facorial and the number '''
