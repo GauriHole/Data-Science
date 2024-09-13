@@ -1,4 +1,4 @@
-Data Science Course Repository
+
 Welcome to the Data Science Course Repository! This repository contains various materials and resources organized into different folders. Below is a brief overview of the contents:
 
 Folders
