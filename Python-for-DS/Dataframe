@@ -1,0 +1,645 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr  4 08:33:16 2024
+
+@author: Lenovo
+"""
+#----------------- Pandas --------------------
+import pandas as pd
+pd.__version__
+#------------------------------------------
+import pandas as pd 
+technologies =[["Spark",2000,"30Days"],
+               ["Pandas",2000,"40Days"]]
+df = pd.DataFrame(technologies)
+print(df)
+
+column_names =["Courses","Fee","Duration"]
+row_label=["a","b"]
+df=pd.DataFrame(technologies,columns=column_names,index=row_label)
+print(df)
+df.dtypes
+#---------------------------------------------
+
+import pandas as pd
+technologies= {
+    'courses':["Spark","PySpark","Hadoop","Python","Pandas","Oracle","Java"],
+    'Fee':[20000,25000,26000,22000,240000,21000,22000],
+    'Duration':['30Days','40Days','35Days','40Days','60Days','50Days','55days'],
+    'Discount':[11.8,23.7,13.4,15.7,12.5,25.4,18.4]
+}
+df = pd.DataFrame(technologies)
+print(df.dtypes)
+#converting object type to string use below code
+df2 = df.convert_dtypes()
+print(df2)
+
+#converting string type to object use below code
+df = df.astype(str)
+print(df.dtypes)
+
+#changing type for one or more columns
+df = df.astype({"Fee":int,"Discount":float})
+print(df.dtypes)
+
+#Convert data type for all columns in a list
+df = pd.DataFrame(technologies)
+df.dtypes
+cols = ['Fee','Discount']
+df[cols]= df[cols].astype('float')
+df.dtypes
+
+#Ignore errors
+df = df.astype({"courses":int})
+df.dtypes
+'''
+ValueError: invalid literal for int() with 
+base 10: 'Spark': Error while type casting 
+for column 'courses'''
+
+df = df.astype({"courses":int},errors='ignore')
+df.dtypes
+#Solved the error after above line
+
+df = df.astype({"courses":int},errors='raise')
+#this will raise the same above error
+
+#Converts feed columns to numeric type
+df = df.astype(str)
+print(df.dtypes)
+df['Discount']=pd.to_numeric(df['Discount']) 
+df.dtypes
+
+#Creating dataframe from dictionary
+import pandas as pd
+technologies ={
+    'Course':["Sparks","PySpark","Hadoop"],
+    'Fee':[20000,25000,26000],
+    'Duration':['30days','40days','35days'],
+    'Discount':[1000,2300,1500]}
+df = pd.DataFrame(technologies)
+df
+#converting dictionary dataframe to CSV
+df.to_csv('data_file.csv')
+df = pd.read_csv('data_file.csv')
+print(df)
+
+#Creating dataframe with None/Null to work with example
+import pandas as pd
+import numpy as np
+import pandas as pd
+technologies =({
+    'Courses':["Spark","PySparks","Hadoop","Python",None,"C++"],
+    'Fee':[2000,3000,5000,4000,np.nan,1000],
+    'Duration':['30days','20days','45days','60days','55days','35days'],
+    'Discount':[100,200,300,400,500,50]
+        })
+row_labels = ['r0','r1','r2','r3','r4','r5']
+df = pd.DataFrame(technologies,index=row_labels)
+print(df)
+
+                            #05-04-2024
+df.shape
+#(6, 4)
+df.size
+#24
+df.columns
+df.columns.values
+df.index
+df.dtypes
+df.info
+#------------------------------------------
+
+#Accessing one column content
+df['Fee']
+#Accessing Multiple Column content by two ways
+cols =['Fee','Duration']
+df[cols]
+#---------OR-----------
+df[['Fee','Duration']]
+#select certain rows and assign it to another dataframe
+df2 = df[4:]
+df2
+#df[row,column]
+#Only selecting rows [::]
+#For selecting first two columns [:,:2]
+#All row all columns [:,:]
+
+#accessing certain cell from column
+df['Duration'][3]
+df['Fee'] =df['Fee'] -500
+df['Fee']
+df.describe()
+#It will shows 5-number summary
+#rename()- Renames pandas DataFrame Columns
+df = pd.DataFrame(technologies,index=row_labels)
+df.columns =['A','B','C','D']
+#Assigning New Headers to Columns
+df
+#-----------------------------------------
+
+#Rename Column Names using rename() method
+import pandas as pd
+df = pd.DataFrame(technologies,index=row_labels)
+df.columns =['A','B','C','D']
+df2 = df.rename({'A':'C1','B':'C2'},axis=1)
+df2 = df.rename({'C':'C3','D':'C4'},axis='columns')
+df2 = df.rename(columns={'A':'C1','B':'C1'})
+
+technologies =({
+    'Courses':["Spark","PySparks","Hadoop","Python",None,"C++"],
+    'Fee':[2000,3000,5000,4000,np.nan,1000],
+    'Duration':['30days','20days','45days','60days','55days','35days'],
+    'Discount':[100,200,300,400,500,50]
+        })
+row_labels = ['r0','r1','r2','r3','r4','r5']
+
+#Drop DataFrame Rows and Columns
+df =pd.DataFrame(technologies,index=row_labels)
+#Drop rows by labels
+df1 = df.drop(['r1','r5'])
+df1
+
+#Delete Rows by position/index
+df1 = df.drop(df.index[1])
+df1
+df1 = df.drop(df.index[[1,3]])
+df1
+
+#Delete Rows by Index Range
+df1 = df.drop(df.index[2:])
+df1
+
+#When you have default indexes for rows 
+df = pd.DataFrame(technologies)
+df1 = df.drop(0)
+df1
+df = pd.DataFrame(technologies)
+df1 = df.drop([0,3],axis =0) #axis =0 referes row 0
+df1
+df = pd.DataFrame(technologies)
+df1 = df.drop(range(0,2)) 
+df1
+
+                        # 10-04-2024
+#Dropping Columns
+import pandas as pd
+import numpy as np
+technologies =({
+    'Courses':["Spark","PySparks","Hadoop","Python",None,"C++"],
+    'Fee':[2000,3000,5000,4000,np.nan,1000],
+    'Duration':['30days','20days','45days','60days','55days','35days'],
+    'Discount':[100,200,300,400,500,50]
+        })
+df = pd.DataFrame(technologies)
+df2 = df.drop(labels=['Fee'],axis=1)
+df2 = df.drop(columns=["Fee"],axis=1)
+#drop column by index
+print(df.drop(df.columns[1],axis=1))
+df = pd.DataFrame(technologies)
+#using inplace to delete and place it in original location
+df.drop(df.columns[2],axis=1,inplace=True)
+print(df)
+#--------- Delete one or more -----------------
+df2 = df.drop(['Courses','Fee'],axis=1)
+print(df2)
+#-----------------------------------------
+
+############# VERY IMPORTANT #################
+#Drop one or more columns by index
+df = pd.DataFrame(technologies)
+df2 = df.drop(df.columns[[0,1]],axis=1)
+print(df2)
+#-----------------------------------------
+
+############# VERY IMPORTANT #################
+#Drop columns from list of columns
+df = pd.DataFrame(technologies)
+df.columns
+lisCol = ["Courses","Discount"]
+df2 = df.drop(lisCol,axis=1)
+print(df2)
+#------------------------------------------
+
+#Remove columns From DataFrame inplace
+df = pd.DataFrame(technologies)
+df
+df.drop(df.columns[1],axis=1,inplace=True)
+                    # Using INPLACE=True
+df
+
+######ILOC( access columns using index) ######### 
+######LOC(access columns using name) #############
+
+#Pandas Select Rows by Index(Position/Labbel)
+import pandas as pd
+import numpy as np
+
+technologies =({
+    'Courses':["spark","pyspark","hadoop","python","pandas","c++"],
+    'Fee':[25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','10days','35days','20days','26days'],
+    'Discount':[100,200,300,400,500,100]
+    })
+row_labels=['r0','r1','r2','r3','r4','r5']
+df = pd.DataFrame(technologies,index=row_labels)
+print(df)
+#df.iloc[startrow:endrow,startcolumn:endcolumn]
+df = pd.DataFrame(technologies,index=row_labels)
+df2 = df.iloc[:,0:2]
+df2 
+# In this case the first slice[:] is all rows are required.
+#the second [0:2] slice indicates that  
+#requesting only columns 0 throught 1 of dataframe
+
+#-------------------------------------------
+
+# In this case the first slice[0:2] is 
+#requesting only row 0 throught 1 of dataframe
+#the second slice[:] indicates that all columns are required.
+df2 = df.iloc[0:2,:]
+df2
+
+# rows from 1 to 2 means only 1 row
+# columns from 1 to 3 means column 1 and 2
+df3 = df.iloc[1:2,1:3]
+df3
+
+#Select rows by integer index
+df2 = df.iloc[2] #select row by index
+df2
+                                # Date : 12 -04 -2024
+#Some Examples
+df2 = df.iloc[[2,3,4]] #Select rows by index list
+print(df2)
+df2 = df.iloc[1:5] #Select Rows by integer index range
+print(df2)
+df2 = df.iloc[:1] #Select First Row
+print(df2)
+df2 = df.iloc[:3] #Select first 3 Rows
+print(df2)
+df = df.iloc[-1] #Select Last row
+print(df2)
+df2 = df.iloc[-3:] #Select last 3 rows
+print(df2)
+df2 = df.iloc[::2] #Selects alternate rows
+print(df2)
+
+import pandas as pd
+import numpy as np
+
+technologies =({
+    'Courses':["spark","pyspark","hadoop","python","pandas","c++"],
+    'Fee':[25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','10days','35days','20days','26days'],
+    'Discount':[100,200,300,400,500,100]
+    })
+row_labels=['r0','r1','r2','r3','r4','r5']
+df = pd.DataFrame(technologies,index=row_labels)
+print(df)
+#select Rows by Index Labels
+df2 = df.loc['r2']  #Select Row by label
+df2
+df2 = df.loc[['r2','r3','r4']]  #Select Rows by Index label
+df2 = df.loc['r1':'r5']  #Select Rows by label Index Range
+print(df2)
+df2 = df.loc['r1':'r5':2] #Select Alternate Rows with index
+print(df2)
+
+#######################################################
+
+#By using df[] Notation
+df2 = df['Courses']
+#Select multiple columns
+df2 = df[['Courses','Fee','Duration']]
+#Using loc[] to take column slices
+#loc[] syntax to slice columns
+#df.loc[:,start:stop:step]
+#Select Multiple columns
+df2 = df.loc[:,['Courses','Fee','Duration']]
+#Select random Columns
+df2 = df.loc[:,['Courses','Fee','Discount']]
+#Select Column between 2 columns
+df2 = df.loc[:,'Fee':'Discount']
+#Select columns by range
+df2 = df.loc[:,'Duration']
+#Select All Columns by range upto 'Duration'
+df2 = df.loc[:,:'Duration']
+#Select every alternate column
+df2 = df.loc[:,::2]
+df2
+#Pandas.DataFrame.query() by Examples
+#Query all rows with courses equals 'Sparks'
+df2 = df.query("Courses == 'spark'")
+print(df2)
+
+df2 = df.query("Courses != 'spark'")
+print(df2)
+##########################################
+import pandas as pd
+import numpy as np
+technologies = ({
+    'Courses': ['Sparks','Pysparks','Hadoop','Python','Pandas'],
+    'Fee': [22200,3000,1000,40000,26000],
+    'Discount':[0.1, 0.2, 0.1, 0.3, 0.4]
+    })
+df = pd.DataFrame(technologies)
+#Add new column to the DataFrame
+tutors = ['Ram','Sham','Ghanshyam','Ganesh','Ramesh']
+df2 = df.assign(TutorsAssigned=tutors)
+print(df2)
+
+#Add multiple columns to the DataFrame
+MNCCOMP = ['TATA','HCL','Infosys','Google','Amazon']
+df2 = df.assign(MNC=MNCCOMP,tutors=tutors)
+df2
+#----------------------------------------------
+#Deliver New Column from Existing Column
+df = pd.DataFrame(technologies)
+df2 = df.assign(Discount_Percent=lambda x:x.Fee* x.Discount/100)
+print(df2)
+# Using lambda function it counts x from {x1,x2,x3,x4,x5}
+
+#Append column to existing pandas DataFrame
+df = pd.DataFrame(technologies)
+df['MNCCOMP']=MNCCOMP
+print(df)
+
+#Add new column at the specific position
+df = pd.DataFrame(technologies)
+df.insert(0,'Tutors',tutors) #insert(columnnum,columnname,value)
+print(df)
+#------------------------------------------------
+
+import pandas as pd
+technologies =({
+    'Courses':["spark","pyspark","hadoop","python","pandas","c++"],
+    'Fee':[25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','10days','35days','20days','26days']
+    })
+df = pd.DataFrame(technologies)
+df.columns
+print(df.columns)
+#Renaming Multiple columns
+df2 = df.rename(columns={'Courses':'Courses_List','Fee':'Fee_Amount','Duration':'Duration_time'},inplace=True)
+print(df.columns)
+df
+
+                                    #15 -04 -2024
+import pandas as pd
+import numpy as np
+technologies =({
+    'Courses':["spark","pyspark","hadoop","python","pandas","c++"],
+    'Fee':[25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','10days','35days','20days','26days']
+    })
+df = pd.DataFrame(technologies)
+df.columns = column_names
+print(df.columns)
+
+df.rename(columns= {'Courses':'Courses_List','Fee':'Course_Fee','Duration':'Course_Duration'},inplace=True)
+print(df.columns)
+
+rows_count = len(df.index)
+rows_count
+rows_count = len(df.axes[0])
+rows_count
+column_count = len(df.axes[1])
+column_count
+#-----------------------------------------------
+
+df= pd.DataFrame(technologies)
+rows_count = df.shape[0]  #return number of rows
+rows_count
+col_column = df.shape[1]  #return number of columns
+print(rows_count)
+print(col_column)
+#-----------------------------------------------
+
+import pandas as pd
+import numpy as np
+
+data = {"A": [1,2,3],
+        "B": [4,5,6],
+        "C": [7,8,9]
+        }
+df = pd.DataFrame(data)
+print(df)
+
+def add_3(x):
+    return x+3
+df2 = df.apply(add_3)
+print(df2)
+df2= ((df.A).apply(add_3))
+
+#Using apply function single column
+def add_4(x):
+    return x+4
+df["B"] = df["B"].apply(add_4)
+df["B"]
+
+#Using apply function to multiple column
+df[['A','B']] = df[['A','B']].apply(add_4)
+df
+#Apply a lambda function to each column
+df2 = df.apply(lambda x : x+10)
+df2
+
+#Transform() Instead of Apply()
+import pandas as pd
+import numpy as np
+
+data = {"A": [1,2,3],
+        "B": [4,5,6],
+        "C": [7,8,9]
+        }
+df = pd.DataFrame(data)
+print(df)
+def add_2(x):
+    return x+2
+df = df.transform(add_2)
+print(df)
+
+#Using pandas.DataFrame.map() to single Column
+df['A'] =df['A'].map(lambda A: A/2)
+print(df)
+
+#Using Numpy function on single column and DataFrame.apply() and Square method
+df = pd.DataFrame(data)
+import numpy as np
+df['A'] = df['A'].apply(np.square)
+print(df)
+#--------------------------------------------------------
+
+#Perform Square Method on Column
+df['A'] = np.square(df['A'])
+print(df)
+
+#Pandas groupby() with example
+import pandas as pd
+import numpy as np
+technologies =({
+    'Courses':["sparks","python","pyspark","hadoop","python","sparks","hadoop","pandas","c++"],
+    'Fee':[30000,50000,25000,25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','20days','10days','35days','20days','26days','35days','45days']
+    })
+df = pd.DataFrame(technologies)
+df2 = df.groupby(['Courses']).sum()
+print(df2)
+
+#GroupBy to Multiple columns
+df2 = df.groupby(["Courses","Duration"]).sum()
+print(df2)
+
+#Add index to the group data
+#Add Row index to group by result
+df2 = df.groupby(['Courses','Duration']).sum().reset_index()
+print(df2)
+
+#Get the List of all column names from headers
+import pandas as pd
+import numpy as np
+technologies =({
+    'Courses':["sparks","python","pyspark","hadoop","python","sparks","hadoop","pandas","c++"],
+    'Fee':[30000,50000,25000,25000,24000,np.nan,250000,25000,35000],
+    'Duration':['30days','40days','20days','10days','35days','20days','26days','35days','45days']
+    })
+df = pd.DataFrame(technologies)
+column_headers = list(df.columns.values)
+print("The Column Header :", column_headers)
+
+# Using List(df) to get the column headers as a list
+column_headers = list(df.columns)
+print(column_headers)
+
+                                #Date: 16 -04 -2024
+#Pandas Shuffle DataFrame Rows Random selection of dat points
+import pandas as pd
+import numpy as np
+technologies =({
+    'Courses':["Spark","PySparks","Hadoop","Python",None,"C++"],
+    'Fee':[2000,3000,5000,4000,np.nan,1000],
+    'Duration':['30days','20days','45days','60days','55days','35days'],
+    'Discount':[100,200,300,400,500,50]
+        })
+df = pd.DataFrame(technologies)
+print(df)
+df1 = df.sample(frac=1) #Shuffle all rows with 100% datapoints
+print(df1)
+
+#Create a new index starting from 0
+df1 = df.sample(frac=1).reset_index()
+print(df1)
+df1
+
+#Drop shuffle index
+df1 = df.sample(frac=1).reset_index(drop=True)
+print(df1)
+
+#-------------------------------------------------------
+#Pandas Join
+import pandas as pd
+technologies ={
+    'Courses': ["Spark","PySpark","Python","Pandas"],
+    'Fee': [20000,25000,22000,30000],
+    'Duration':['30days','40days','35days','50days'],
+    }
+index_labels =['r1','r2','r3','r4']
+df1 = pd.DataFrame(technologies,index=index_labels)
+
+technologies2 ={
+    'Courses':["Sparks","Java","Python","Go"],
+    'Discount':[2000,3000,1200,2000]
+    }
+index_labels2 =['r1','r6','r3','r5']
+df2 = pd.DataFrame(technologies2,index=index_labels2)
+
+df3 = df1.join(df2,lsuffix="_left",rsuffix="_right")
+print(df3)
+
+#Pandas Inner Join
+df3 = df1.join(df2,lsuffix="_left",rsuffix="_right",how="inner")
+print(df3)
+
+#Pandas Left Join
+df3 = df1.join(df2,lsuffix="_left",rsuffix="_right",how="left")
+print(df3)
+
+#Pandas Right Join
+df3 = df1.join(df2,lsuffix="_left",rsuffix="_right",how="right")
+print(df3)
+
+#Pandas Merging DataFrames
+import pandas as pd
+technologies ={
+    'Courses': ["Spark","PySpark","Python","Pandas"],
+    'Fee': [20000,25000,22000,30000],
+    'Duration':['30days','40days','35days','50days'],
+    }
+index_labels =['r1','r2','r3','r4']
+df1 = pd.DataFrame(technologies,index=index_labels)
+
+technologies2 ={
+    'Courses':["Sparks","Java","Python","Go"],
+    'Discount':[2000,3000,1200,2000]
+    }
+index_labels2 =['r1','r6','r3','r5']
+df2 = pd.DataFrame(technologies2,index=index_labels2) 
+
+#-------------------pandas.merge()-----------------------
+df3 = pd.merge(df1,df2)
+df3 = df1.merge(df2)
+
+#-------------------pandas.concat()---------------------- 
+import pandas as pd
+df = pd.DataFrame({'Courses':["Spark","PySpark","Python","pandas"],
+                   'Fee':[20000,25000,22000,24000]})
+df1 = pd.DataFrame({'Courses':["Pandas","Hadoop","Hyperion","Java"],
+                    'Fee':[25000,25200,24500,24900]})
+
+#Using pandas.concat() to vertical join the dataframes
+data = [df,df1]
+df2 = pd.concat(data)
+df2
+
+#-------------- Concatinating Multiple DataFrames -------------
+import pandas as pd
+df = pd.DataFrame({'Courses':["Spark","PySpark","Python","pandas"],
+                   'Fee':[20000,25000,22000,24000]})
+df1 = pd.DataFrame({'Courses':["Pandas","Hadoop","Hyperion","Java"],
+                    'Fee':[25000,25200,24500,24900]})
+
+df2 = pd.DataFrame({'Duration':['30days','40days','35days','60days','55days'],
+                    'Discount':[1000,2300,2500,2000,3000]})
+
+#Appending Multiple Dataframes
+df3 = pd.concat([df,df1,df2])
+print(df3)
+
+                                    # 18 -04 -2024
+import pandas as pd
+df = pd.read_excel('Bahaman.xlsx')
+print(df)
+
+
+df = pd.DataFrame({'Courses':["Spark","PySpark","Python","pandas"],
+                   'Fee':[20000,25000,22000,24000]})
+col_list = df.Courses.values
+print(col_list)
+col_list = df.Courses.values.tolist()
+print(col_list)
+
+#Using Series.values.tolist()
+col_list = df["Courses"].values.tolist()
+print(col_list)
+
+#Using list() Function
+col_list = list(df["Courses"])
+print(col_list)
+
+#Convert to numpy array 
+import numpy as np
+col_list = df["Courses"].to_numpy()
+print(col_list)
+
+#---------------------------------------------------
