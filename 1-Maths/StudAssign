@@ -1,0 +1,43 @@
+import math
+
+sort_stud = []
+student = {}
+student_t = set()
+count = 0
+num_stud = int(input("Enter number of students: "))
+
+for i in range(num_stud):
+    name = input("Enter Student's name: ")
+    age = int(input("Enter Student's age: "))
+    grade = float(input("Enter Student's Grade: "))
+    stud_dict = {'name': name, 'age': age, 'grade': grade}
+    sort_stud.append(stud_dict)
+
+    student_tuple = (name, age, grade)
+    student_t.add(student_tuple)
+    print("Student Tuple Records : ", student_t)
+
+    student[name] = {'age': age, 'grade': grade}
+    count = count + 1
+
+# Print the sorted list of Student Dictionary
+sort_stud.sort(key=lambda x: x['grade'], reverse=True)
+print("Sorted List of Dictionaries ( Order of Highest Grades):")
+print(sort_stud)
+
+# Print the dictionary key : student_names , value : ages
+print("Dictionary of Ages:")
+print(student)
+
+high_grade = -1
+high_grade_stud = ""
+for name, data in student.items():
+    if data['grade'] > high_grade:
+        high_grade = data['grade']
+        high_grade_stud = name
+
+print(f"The Student with the Highest Grade is {high_grade_stud} with a grade of {high_grade}")
+
+total_age = sum(data['age'] for data in student.values())
+avg_age = total_age / num_stud
+print("Average age of Students: ", avg_age)
